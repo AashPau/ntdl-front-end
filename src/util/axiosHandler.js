@@ -28,9 +28,9 @@ export const getAllTasks = async () => {
   }
 };
 
-export const deleteTasks = async (_id) => {
+export const deleteTasks = async (ids) => {
   try {
-    const response = await axios.delete(apiEP + "/" + _id);
+    const response = await axios.delete(apiEP, { data: ids });
     console.log(response);
     return response.data;
   } catch (error) {

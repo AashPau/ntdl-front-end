@@ -25,16 +25,6 @@ function App() {
     result.status === "success" && fetchAllTasks();
   };
 
-  const handOnDelete = async (_id) => {
-    if (window.confirm("Are you sure, you want to delete the item?")) {
-      const { status, message } = await deleteTasks(_id);
-
-      if (status === "success") {
-        fetchAllTasks();
-        alert(message);
-      }
-    }
-  };
   const fetchAllTasks = async () => {
     const { status, tasks } = await getAllTasks();
     if (status === "success") {
@@ -55,7 +45,7 @@ function App() {
         <Table
           entryList={entryList}
           switchTask={switchTask}
-          handOnDelete={handOnDelete}
+          fetchAllTasks={fetchAllTasks}
         />
 
         {/* <!-- toat time allocated --> */}
