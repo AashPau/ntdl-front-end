@@ -27,7 +27,7 @@ export const Table = ({ entryList, switchTask, fetchAllTasks }) => {
         : badList.map((item) => item._id);
 
     checked
-      ? setIdsToDelete([...idsToDelete, ...ids])
+      ? setIdsToDelete([...new Set([...idsToDelete, ...ids])])
       : setIdsToDelete(idsToDelete.filter((id) => !ids.includes(id)));
 
     // if (checked) {
@@ -43,7 +43,6 @@ export const Table = ({ entryList, switchTask, fetchAllTasks }) => {
     if (window.confirm("Are you sure, you want to delete the item?")) {
       const { status, message } = await deleteTasks(idsToDelete);
 
-      console.log(status);
       if (status === "success") {
         setIdsToDelete([]);
         fetchAllTasks();
@@ -66,6 +65,7 @@ export const Table = ({ entryList, switchTask, fetchAllTasks }) => {
               id="selectEntryList"
               onChange={handleOnSelectAll}
               value="entry"
+              checked={entries.every((item) => idsToDelete.includes(item._id))}
             />
             <label htmlFor="selectEntryList">Select items</label>
           </div>
@@ -79,7 +79,7 @@ export const Table = ({ entryList, switchTask, fetchAllTasks }) => {
                       className="form-check-input"
                       onChange={handleOnSelect}
                       value={item._id}
-                      // checked={idsToDelete.includes(item._id)}
+                      checked={idsToDelete.includes(item._id)}
                     />
                   </td>
                   <td>{i + 1}</td>
@@ -116,6 +116,7 @@ export const Table = ({ entryList, switchTask, fetchAllTasks }) => {
               id="selectEntryList"
               onChange={handleOnSelectAll}
               value="bad"
+              checked={badList.every((item) => idsToDelete.includes(item._id))}
             />
             <label>Select items</label>
           </div>
@@ -129,7 +130,7 @@ export const Table = ({ entryList, switchTask, fetchAllTasks }) => {
                       className="form-check-input"
                       onChange={handleOnSelect}
                       value={item._id}
-                      // checked={idsToDelete.includes(item._id)}
+                      checked={idsToDelete.includes(item._id)}
                     />
                   </td>
                   <td>{i + 1}</td>
